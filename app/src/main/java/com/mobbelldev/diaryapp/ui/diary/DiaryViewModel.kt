@@ -1,13 +1,13 @@
-package com.mobbelldev.diaryapp.ui.dashboard
+package com.mobbelldev.diaryapp.ui.diary
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class DiaryViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+        value = "This is diary Fragment"
     }
     val text: LiveData<String> = _text
 }

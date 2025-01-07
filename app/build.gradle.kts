@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.mobbelldev.diaryapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.mobbelldev.diaryapp"

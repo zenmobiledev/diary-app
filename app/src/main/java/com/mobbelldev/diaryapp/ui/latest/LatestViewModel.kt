@@ -1,13 +1,13 @@
-package com.mobbelldev.diaryapp.ui.notifications
+package com.mobbelldev.diaryapp.ui.latest
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class NotificationsViewModel : ViewModel() {
+class LatestViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+        value = "This is latest Fragment"
     }
     val text: LiveData<String> = _text
 }
