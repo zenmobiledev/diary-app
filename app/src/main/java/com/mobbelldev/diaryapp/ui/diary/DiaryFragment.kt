@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mobbelldev.diaryapp.databinding.FragmentDiaryBinding
@@ -28,9 +28,13 @@ class DiaryFragment : Fragment() {
         _binding = FragmentDiaryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDiary
-        diaryViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+//        val textView: TextView = binding.textDiary
+//        diaryViewModel.text.observe(viewLifecycleOwner) {
+//            textView.text = it
+//        }
+
+        binding.fab.setOnClickListener {
+            Toast.makeText(requireActivity(), "Showing alert dialog!", Toast.LENGTH_SHORT).show()
         }
         return root
     }
