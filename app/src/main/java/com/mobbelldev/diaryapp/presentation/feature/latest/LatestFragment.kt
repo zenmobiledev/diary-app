@@ -1,4 +1,4 @@
-package com.mobbelldev.diaryapp.ui.settings
+package com.mobbelldev.diaryapp.presentation.feature.latest
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.mobbelldev.diaryapp.databinding.FragmentSettingsBinding
+import com.mobbelldev.diaryapp.databinding.FragmentLatestBinding
 
-class SettingsFragment : Fragment() {
+class LatestFragment : Fragment() {
 
-    private var _binding: FragmentSettingsBinding? = null
+    private var _binding: FragmentLatestBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +22,14 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val settingsViewModel =
-            ViewModelProvider(this)[SettingsViewModel::class.java]
+        val latestViewModel =
+            ViewModelProvider(this)[LatestViewModel::class.java]
 
-        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        _binding = FragmentLatestBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textSettings
-        settingsViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textLatest
+        latestViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root

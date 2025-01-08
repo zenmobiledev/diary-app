@@ -1,13 +1,13 @@
-package com.mobbelldev.diaryapp.ui.diary
+package com.mobbelldev.diaryapp.presentation.feature.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DiaryViewModel : ViewModel() {
+class SettingsViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is diary Fragment"
+        value = "This is settings Fragment"
     }
     val text: LiveData<String> = _text
 }

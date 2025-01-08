@@ -1,4 +1,4 @@
-package com.mobbelldev.diaryapp.ui.latest
+package com.mobbelldev.diaryapp.presentation.feature.latest
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
