@@ -8,17 +8,18 @@
 
     <ImageView
         android:id="@+id/iv_diary"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
         android:src="@drawable/diary_amico_illustration"
+        app:layout_constraintBottom_toTopOf="@+id/fab"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tv_diary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:text="@string/text_quote"
         android:textAlignment="center"
         android:textColor="@color/md_theme_onSurfaceVariant_highContrast"

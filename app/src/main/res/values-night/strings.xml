@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="title_diary">Diary</string>
+    <string name="title_latest">Latest</string>
+    <string name="title_settings">Settings</string>
     <string name="text_quote">Keep a diary,\nand someday it’ll\n keep you.\n\n —Mae West</string>
     <string name="text_add_diary">Add Diary</string>
     <string name="title_search">Search</string>
+    <string name="title_sort">Sort</string>
+    <string name="text_save">Save</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_update">Update</string>
+    <string name="text_delete">Delete</string>
+    <string name="text_latest">Latest</string>
+    <string name="text_oldest">Oldest</string>
 </resources>
