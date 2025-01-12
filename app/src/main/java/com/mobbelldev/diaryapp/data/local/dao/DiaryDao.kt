@@ -12,7 +12,7 @@ interface DiaryDao {
     @Insert
     suspend fun insertDiary(diaryEntity: DiaryEntity)
 
-    @Query("SELECT * FROM diary_table")
+    @Query("SELECT * FROM diary_table ORDER BY id DESC")
     fun getAllDiaries(): List<DiaryEntity>
 
     @Update
@@ -20,4 +20,16 @@ interface DiaryDao {
 
     @Delete
     suspend fun deleteDiary(diaryEntity: DiaryEntity)
+
+    // Search Diary
+    @Query("SELECT * FROM diary_table WHERE title LIKE :query OR date LIKE :query")
+    suspend fun setSearchDiary(query: String): List<DiaryEntity>
+
+    // Sorted by date in ascending order
+    @Query("SELECT * FROM diary_table ORDER BY date ASC")
+    fun getDiaryByAsc(): List<DiaryEntity>
+
+    // Sorted by date in descending order
+    @Query("SELECT * FROM diary_table ORDER BY date DESC")
+    fun getDiaryByDesc(): List<DiaryEntity>
 }

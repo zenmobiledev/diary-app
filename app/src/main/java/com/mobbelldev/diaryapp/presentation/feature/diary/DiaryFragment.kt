@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -41,14 +42,22 @@ class DiaryFragment : Fragment() {
     private lateinit var db: DiaryDatabase
     private val listAdapter = ListDiaryAdapter()
 
+    // Date
+    private val calendar = Calendar.getInstance()
+    private val yyyy = calendar.get(Calendar.YEAR)
+    private val mm = calendar.get(Calendar.MONTH)
+    private val dd = calendar.get(Calendar.DAY_OF_MONTH)
+    private var getDate: String? = null
+
+//    private var diary: DiaryEntity? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentDiaryBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,41 +71,16 @@ class DiaryFragment : Fragment() {
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.top_bar_menu, menu)
+
                 // Set up the search icon
-//                val searchItem = menu.findItem(R.id.menu_search)
-//                val searchView = searchItem.actionView as SearchView
-//                searchView.queryHint = "Search for diary titles..."
-//                searchView.
-//                // Listener
-//                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//                    override fun onQueryTextChange(newText: String?): Boolean = false
-//
-//                    override fun onQueryTextSubmit(query: String?): Boolean {
-//                        // Handle the Search
-//                        Toast.makeText(
-//                            requireActivity(),
-//                            "Search title: $query",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                        return true
-//                    }
-//                })
-//
-//                // Handle collapse events
-//                searchView.setOnCloseListener {
-//                    Toast.makeText(requireActivity(), "Search Closed", Toast.LENGTH_SHORT).show()
-//                    false
-//                }
+                val searchItem = menu.findItem(R.id.menu_search)
+                val searchView =
+                    searchItem?.actionView as SearchView
+                setupSearchListener(searchView)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    // Set up search here
-                    R.id.menu_search -> {
-
-                        true
-                    }
-
                     R.id.menu_sort -> {
                         // Showing a pop-up sorted by date
                         val popupMenu =
@@ -106,8 +90,12 @@ class DiaryFragment : Fragment() {
                             )
                         popupMenu.setOnMenuItemClickListener {
                             when (it.itemId) {
-                                // Ascending
+                                // Latest
                                 R.id.menu_asc -> {
+                                    viewLifecycleOwner.lifecycleScope.launch {
+                                        val data = db.diaryDao().getDiaryByDesc()
+                                        listAdapter.setData(data)
+                                    }
                                     Toast.makeText(
                                         view.context,
                                         "Latest",
@@ -116,8 +104,12 @@ class DiaryFragment : Fragment() {
                                     true
                                 }
 
-                                // Descending
+                                // Oldest
                                 R.id.menu_desc -> {
+                                    viewLifecycleOwner.lifecycleScope.launch {
+                                        val data = db.diaryDao().getDiaryByAsc()
+                                        listAdapter.setData(data)
+                                    }
                                     Toast.makeText(
                                         view.context,
                                         "Oldest",
@@ -161,203 +153,160 @@ class DiaryFragment : Fragment() {
         _binding = null
     }
 
-    // When the card is clicked, update the data.
-    private fun updateData() {
-        listAdapter.setOnClickListener(object : ListDiaryAdapter.OnClickListener {
-            override fun onClick(position: Int, model: DiaryEntity) {
-                val alertDialogBuilder = AlertDialog.Builder(requireContext())
-                val dialogBinding =
-                    CustomAlertDialogBinding.inflate(LayoutInflater.from(requireContext()))
-                alertDialogBuilder.setView(dialogBinding.root)
-                val dialog = alertDialogBuilder.create()
-
-                // Date
-                val calendar = Calendar.getInstance()
-                val yyyy = calendar.get(Calendar.YEAR)
-                val mm = calendar.get(Calendar.MONTH)
-                val dd = calendar.get(Calendar.DAY_OF_MONTH)
-                var getDate: String? = null
-                val dateDialog = DatePickerDialog(
-                    requireContext(),
-                    { view, year, month, day ->
-                        getDate = "${view.dayOfMonth}/${view.month + 1}/${view.year}"
-                        dialogBinding.tvDate.text = getDate
-                        dialogBinding.imbDate.setImageResource(R.drawable.filled_date_range_24)
-                    },
-                    yyyy, mm, dd
-                )
-                dialogBinding.imbDate.setOnClickListener {
-                    dateDialog.show()
-                }
-
-                // SET UP POSITIVE BUTTON
-                dialogBinding.btnPositive.apply {
-                    icon = ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.outline_update_24
-                    )
-                    text = ContextCompat.getString(requireContext(), R.string.text_update)
-
-                    // Handle the positive click
-                    setOnClickListener {
-                        val titleText = dialogBinding.edtTitle.text.toString()
-                        val descriptionText = dialogBinding.edtDescription.text.toString()
-
-                        if (getDate != null && titleText.isNotEmpty() && descriptionText.isNotEmpty()) {
-                            val diary = DiaryEntity(
-                                id = model.id,
-                                date = getDate.toString(),
-                                title = titleText,
-                                description = descriptionText
-                            )
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                db.diaryDao().update(
-                                    diaryEntity = diary
-                                )
-                            }
-                            Toast.makeText(
-                                requireContext(),
-                                "Updated is successfully!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            dialog.dismiss()
-                            getData()
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                "Please fill in the date, the title, and the description.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+    // Set up Search for diary titles
+    private fun setupSearchListener(searchView: SearchView) {
+        searchView.queryHint = "Search in diaries"
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(query: String?): Boolean {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val data = if (!query.isNullOrEmpty()) {
+                        db.diaryDao().setSearchDiary("%$query%")
+                    } else {
+                        db.diaryDao().getAllDiaries()
                     }
+                    listAdapter.setData(data)
                 }
-
-                // SET UP NEGATIVE BUTTON
-                dialogBinding.btnNegative.isVisible = false
-
-                // SET UP DELETE BUTTON
-                dialogBinding.btnDelete.apply {
-                    isVisible = true
-                    setOnClickListener {
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            db.diaryDao().deleteDiary(model)
-                        }
-                        dialog.dismiss()
-                        getData()
-                    }
-                }
-
-                // SET UP CANCEL BUTTON
-                dialogBinding.imbCancel.apply {
-                    isVisible = true
-                    setOnClickListener {
-                        dialog.cancel()
-                        Toast.makeText(
-                            requireContext(),
-                            "Your diary update was cancelled.",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
-                }
-
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                dialog.show()
+                return true
             }
 
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return if (query != null) {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        val data = db.diaryDao().setSearchDiary("%$query%")
+                        listAdapter.setData(data)
+                    }
+                    true
+                } else {
+                    false
+                }
+            }
         })
     }
 
-    // FAB ACTION
     private fun addData() {
         binding.fab.setOnClickListener {
-            val alertDialogBuilder = AlertDialog.Builder(view?.context)
-            val dialogBinding =
-                CustomAlertDialogBinding.inflate(LayoutInflater.from(requireContext()))
-            alertDialogBuilder.setView(dialogBinding.root)
-            val dialog = alertDialogBuilder.create()
-
-            // Date
-            val calendar = Calendar.getInstance()
-            val yyyy = calendar.get(Calendar.YEAR)
-            val mm = calendar.get(Calendar.MONTH)
-            val dd = calendar.get(Calendar.DAY_OF_MONTH)
-            var getDate: String? = null
-            val dateDialog = DatePickerDialog(
-                requireContext(),
-                { view, year, month, day ->
-                    getDate = "${view.dayOfMonth}/${view.month + 1}/${view.year}"
-                    dialogBinding.tvDate.text = getDate
-                    Toast.makeText(
-                        requireActivity(),
-                        "${view.dayOfMonth}/${view.month + 1}/${view.year}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    dialogBinding.imbDate.setImageResource(R.drawable.filled_date_range_24)
-                },
-                yyyy, mm, dd
-            )
-            dialogBinding.imbDate.setOnClickListener {
-                dateDialog.show()
+            showDiaryDialog { newDiary ->
+                viewLifecycleOwner.lifecycleScope.launch {
+                    db.diaryDao().insertDiary(newDiary)
+                    getData()
+                }
             }
+        }
+    }
 
-            // SET UP POSITIVE BUTTON
-            dialogBinding.btnPositive.apply {
-                icon = ContextCompat.getDrawable(requireContext(), R.drawable.outline_save_24)
-                text = ContextCompat.getString(requireContext(), R.string.text_save)
-
-                // Handle the positive click
-                setOnClickListener {
-                    val titleText = dialogBinding.edtTitle.text.toString()
-                    val descriptionText = dialogBinding.edtDescription.text.toString()
-
-                    if (getDate != null && titleText.isNotEmpty() && descriptionText.isNotEmpty()) {
-                        val diary = DiaryEntity(
-                            date = getDate.toString(),
-                            title = titleText,
-                            description = descriptionText
-                        )
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            db.diaryDao().insertDiary(diaryEntity = diary)
-                        }
-                        Toast.makeText(
-                            requireActivity(),
-                            "Diary saved successfully!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        dialog.dismiss()
+    private fun updateData() {
+        listAdapter.setOnClickListener(object : ListDiaryAdapter.OnClickListener {
+            override fun onClick(position: Int, model: DiaryEntity) {
+                showDiaryDialog(model) { updatedDiary ->
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        db.diaryDao().update(updatedDiary)
                         getData()
-                    } else {
-                        Toast.makeText(
-                            requireActivity(),
-                            "Please fill in the date, the title, and the description.",
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
                 }
             }
+        })
+    }
 
-            // SET UP NEGATIVE BUTTON
-            dialogBinding.btnNegative.apply {
-                icon = ContextCompat.getDrawable(requireContext(), R.drawable.outline_cancel_24)
-                text = ContextCompat.getString(requireContext(), R.string.text_cancel)
+    private fun showDiaryDialog(
+        diary: DiaryEntity? = null,
+        onPositive: (DiaryEntity) -> Unit,
+    ) {
+        val dialogBinding = CustomAlertDialogBinding.inflate(LayoutInflater.from(requireContext()))
+        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+        alertDialogBuilder.setView(dialogBinding.root)
+        val dialog = alertDialogBuilder.create()
 
-                // Handle the negative click
-                setOnClickListener {
-                    dialog.cancel()
+        // Jika mode edit, isi data awal
+        diary?.let {
+            dialogBinding.tvDate.text = it.date
+            dialogBinding.edtTitle.setText(it.title)
+            dialogBinding.edtDescription.setText(it.description)
+        }
 
+        // Date Picker Dialog
+        val dateDialog = DatePickerDialog(
+            requireContext(),
+            { _, year, month, day ->
+                getDate = "$day/${month + 1}/$year"
+                dialogBinding.tvDate.text = getDate
+                dialogBinding.imbDate.setImageResource(R.drawable.filled_date_range_24)
+            },
+            yyyy, mm, dd
+        )
+
+        dialogBinding.imbDate.setOnClickListener {
+            dateDialog.show()
+        }
+
+        // Positive Button
+        dialogBinding.btnPositive.apply {
+            icon = ContextCompat.getDrawable(requireContext(), R.drawable.outline_save_24)
+            text =
+                if (diary == null) resources.getString(R.string.text_save) else getString(R.string.text_update)
+
+            setOnClickListener {
+                val titleText = dialogBinding.edtTitle.text.toString()
+                val descriptionText = dialogBinding.edtDescription.text.toString()
+
+                if (getDate != null && titleText.isNotEmpty() && descriptionText.isNotEmpty()) {
+                    val updatedDiary = DiaryEntity(
+                        id = diary?.id ?: 0,
+                        date = getDate.toString(),
+                        title = titleText,
+                        description = descriptionText
+                    )
+                    onPositive(updatedDiary)
+                    dialog.dismiss()
+                } else {
                     Toast.makeText(
-                        requireActivity(),
-                        "Cancel button is clicked!",
+                        requireContext(),
+                        "Please fill in the date, title, and description.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
-
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog.show()
         }
+
+        // Negative Button
+        dialogBinding.btnNegative.apply {
+            icon = ContextCompat.getDrawable(requireContext(), R.drawable.outline_cancel_24)
+            text = resources.getString(R.string.text_cancel)
+            setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+
+        // Delete Button (only visible in edit mode)
+        dialogBinding.btnDelete.apply {
+            isVisible = diary != null
+            setOnClickListener {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    db.diaryDao().deleteDiary(diary!!)
+                    Toast.makeText(
+                        requireContext(),
+                        "Diary deleted successfully!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    dialog.dismiss()
+                    getData()
+                }
+            }
+        }
+
+        dialogBinding.imbCancel.apply {
+            isVisible = diary != null
+            setOnClickListener {
+                dialog.cancel()
+                Toast.makeText(
+                    requireContext(),
+                    "Your diary update was cancelled.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
     }
 
     // Get all diaries from the database

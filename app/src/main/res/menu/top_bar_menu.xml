@@ -5,7 +5,8 @@
         android:id="@+id/menu_search"
         android:icon="@drawable/rounded_search_24"
         android:title="@string/title_search"
-        app:showAsAction="ifRoom" />
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="collapseActionView|ifRoom" />
 
     <item
         android:id="@+id/menu_sort"
