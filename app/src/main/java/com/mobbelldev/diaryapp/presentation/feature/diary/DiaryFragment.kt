@@ -42,15 +42,6 @@ class DiaryFragment : Fragment() {
     private lateinit var db: DiaryDatabase
     private val listAdapter = ListDiaryAdapter()
 
-    // Date
-    private val calendar = Calendar.getInstance()
-    private val yyyy = calendar.get(Calendar.YEAR)
-    private val mm = calendar.get(Calendar.MONTH)
-    private val dd = calendar.get(Calendar.DAY_OF_MONTH)
-    private var getDate: String? = null
-
-//    private var diary: DiaryEntity? = null
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -216,12 +207,19 @@ class DiaryFragment : Fragment() {
         alertDialogBuilder.setView(dialogBinding.root)
         val dialog = alertDialogBuilder.create()
 
-        // Jika mode edit, isi data awal
+        // If it's edit mode, fill in the initial data
         diary?.let {
             dialogBinding.tvDate.text = it.date
             dialogBinding.edtTitle.setText(it.title)
             dialogBinding.edtDescription.setText(it.description)
         }
+
+        // Date
+        val calendar = Calendar.getInstance()
+        val yyyy = calendar.get(Calendar.YEAR)
+        val mm = calendar.get(Calendar.MONTH)
+        val dd = calendar.get(Calendar.DAY_OF_MONTH)
+        var getDate: String? = null
 
         // Date Picker Dialog
         val dateDialog = DatePickerDialog(
@@ -293,6 +291,7 @@ class DiaryFragment : Fragment() {
             }
         }
 
+        // Cancel button showing when in edit mode
         dialogBinding.imbCancel.apply {
             isVisible = diary != null
             setOnClickListener {

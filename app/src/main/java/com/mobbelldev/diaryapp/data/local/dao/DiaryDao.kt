@@ -32,4 +32,8 @@ interface DiaryDao {
     // Sorted by date in descending order
     @Query("SELECT * FROM diary_table ORDER BY date DESC")
     fun getDiaryByDesc(): List<DiaryEntity>
+
+    // Sorted by lastModified in descending order (latest modified entries first)
+    @Query("SELECT * FROM diary_table ORDER BY lastModified DESC")
+    fun getLatestDiaries(): List<DiaryEntity>
 }

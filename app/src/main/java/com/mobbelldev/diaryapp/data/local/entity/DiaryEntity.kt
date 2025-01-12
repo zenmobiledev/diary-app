@@ -9,4 +9,5 @@ data class DiaryEntity(
     val date: String,
     val title: String,
     val description: String,
+    val lastModified: Long = System.currentTimeMillis(),
 )
