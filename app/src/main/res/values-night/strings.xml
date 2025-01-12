@@ -13,4 +13,7 @@
     <string name="text_delete">Delete</string>
     <string name="text_latest">Latest</string>
     <string name="text_oldest">Oldest</string>
+    <string name="text_notification">Notification Reminder</string>
+    <string name="text_dark_mode">Dark Mode</string>
+    <string name="text_exit">Exit</string>
 </resources>

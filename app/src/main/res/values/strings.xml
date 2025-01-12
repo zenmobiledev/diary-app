@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">Diary App</string>
-    <!--    <string name="title_home">Home</string>-->
-    <!--    <string name="title_dashboard">Dashboard</string>-->
-    <!--    <string name="title_notifications">Notifications</string>-->
 
     <string name="title_diary">Diary</string>
     <string name="title_latest">Latest</string>
@@ -17,4 +14,7 @@
     <string name="text_delete">Delete</string>
     <string name="text_latest">Latest</string>
     <string name="text_oldest">Oldest</string>
+    <string name="text_notification">Notification Reminder</string>
+    <string name="text_dark_mode">Dark Mode</string>
+    <string name="text_exit">Exit</string>
 </resources>
