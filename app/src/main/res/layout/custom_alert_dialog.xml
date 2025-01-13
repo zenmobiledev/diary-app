@@ -13,31 +13,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/imb_date"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+        <ImageView
+            android:id="@+id/iv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
+            android:scaleType="centerInside"
             android:src="@drawable/rounded_date_24"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_date"
-            style="@style/MaterialAlertDialog.Material3.Body.Text"
+            style="@style/MaterialAlertDialog.Material3.Title.Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:text="Add Date"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/imb_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imb_date"
-            app:layout_constraintTop_toTopOf="@+id/imb_date"
+            app:layout_constraintEnd_toStartOf="@+id/imb_cancel"
+            app:layout_constraintStart_toEndOf="@+id/iv_date"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="09/01/2025" />
 
         <ImageButton
@@ -47,8 +49,8 @@
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:src="@drawable/outline_cancel_24"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/imb_date"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,13 +59,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="32dp"
-            android:background="@null"
+            android:layout_marginTop="16dp"
             android:hint="TITLE"
             android:inputType="text"
             android:textColor="@color/md_theme_onSurface"
             android:textColorHint="@color/md_theme_onSurfaceVariant"
-            app:layout_constraintTop_toBottomOf="@+id/imb_date"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date"
             tools:layout_editor_absoluteX="16dp" />
 
         <EditText
@@ -72,7 +73,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
-            android:background="@null"
             android:hint="Write more here..."
             android:inputType="text"
             android:textColor="@color/md_theme_onSurface"

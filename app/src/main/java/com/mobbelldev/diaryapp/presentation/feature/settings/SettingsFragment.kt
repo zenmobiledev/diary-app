@@ -36,26 +36,16 @@ class SettingsFragment : Fragment(), OnSettingItemClickListener {
         val settingsItems = listOf(
             SettingItem(
                 iconResId = R.drawable.outline_notifications_active_24,
-                title = ContextCompat.getString(requireContext(), R.string.text_notification),
-                hasSwitch = false
-            ),
-            SettingItem(
-                iconResId = R.drawable.outline_dark_mode_24,
-                title = ContextCompat.getString(
-                    requireContext(),
-                    R.string.text_dark_mode
-                ),
-                hasSwitch = true
+                title = ContextCompat.getString(requireContext(), R.string.text_notification)
             ),
             SettingItem(
                 iconResId = R.drawable.outline_exit_to_app_24,
-                title = ContextCompat.getString(requireContext(), R.string.text_exit),
-                hasSwitch = false
+                title = ContextCompat.getString(requireContext(), R.string.text_exit)
             )
         )
 
         // Set adapter
-        val settingsAdapter = SettingsAdapter(settingsItems, requireContext(), this)
+        val settingsAdapter = SettingsAdapter(settingsItems, this)
         binding.rvSettings.adapter = settingsAdapter
         binding.rvSettings.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -68,30 +58,20 @@ class SettingsFragment : Fragment(), OnSettingItemClickListener {
     // Set item click listener
     override fun onSettingItemClick(settingItem: SettingItem) {
         when (settingItem.title) {
-            ContextCompat.getString(requireContext(), R.string.text_notification) -> {
-                // Navigate to the notification reminder
-                Toast.makeText(
-                    requireContext(),
-                    "Notification Reminder",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            ContextCompat.getString(requireContext(), R.string.text_dark_mode) -> {
-                // Navigate to Dark Mode
-                Toast.makeText(requireContext(), "Dark Mode", Toast.LENGTH_SHORT)
-                    .show()
-            }
-
-            ContextCompat.getString(requireContext(), R.string.text_exit) -> {
-                // Exit the app
-                Toast.makeText(requireContext(), "Exiting app", Toast.LENGTH_SHORT).show()
-                requireActivity().finish()
-            }
-
+            getString(R.string.text_notification) -> navigateToNotification()
+            getString(R.string.text_exit) -> exitApp()
             else -> {
                 // Do nothing
             }
         }
+    }
+
+    private fun navigateToNotification() {
+        Toast.makeText(view?.context, "Navigate To Notification Screen Page", Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun exitApp() {
+
     }
 }

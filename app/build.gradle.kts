@@ -40,6 +40,9 @@ android {
 }
 
 dependencies {
+    // Data Store
+    implementation(libs.androidx.datastore.preferences)
+
     // Room & Ksp
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)

@@ -227,14 +227,18 @@ class DiaryFragment : Fragment() {
             { _, year, month, day ->
                 getDate = "$day/${month + 1}/$year"
                 dialogBinding.tvDate.text = getDate
-                dialogBinding.imbDate.setImageResource(R.drawable.filled_date_range_24)
             },
             yyyy, mm, dd
         )
 
-        dialogBinding.imbDate.setOnClickListener {
+        // Calendar Button
+        dialogBinding.tvDate.setOnClickListener {
             dateDialog.show()
         }
+        dialogBinding.ivDate.setOnClickListener {
+            dateDialog.show()
+        }
+
 
         // Positive Button
         dialogBinding.btnPositive.apply {
