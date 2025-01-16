@@ -17,4 +17,5 @@
     <string name="text_notification">Notification Reminder</string>
     <string name="text_dark_mode">Dark Mode</string>
     <string name="text_exit">Exit</string>
+    <string name="text_no_diary">No diary yet</string>
 </resources>

@@ -1,5 +1,6 @@
-package com.mobbelldev.diaryapp.presentation.feature.diary
+package com.mobbelldev.diaryapp.ui.feature.diary
 
+import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.graphics.Color
@@ -11,6 +12,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -23,11 +25,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobbelldev.diaryapp.R
-import com.mobbelldev.diaryapp.data.local.database.DiaryDatabase
-import com.mobbelldev.diaryapp.data.local.entity.DiaryEntity
+import com.mobbelldev.diaryapp.data.DiaryDatabase
+import com.mobbelldev.diaryapp.data.DiaryEntity
 import com.mobbelldev.diaryapp.databinding.CustomAlertDialogBinding
 import com.mobbelldev.diaryapp.databinding.FragmentDiaryBinding
-import com.mobbelldev.diaryapp.presentation.adapter.ListDiaryAdapter
+import com.mobbelldev.diaryapp.ui.feature.diary.adapter.ListDiaryAdapter
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -207,13 +209,6 @@ class DiaryFragment : Fragment() {
         alertDialogBuilder.setView(dialogBinding.root)
         val dialog = alertDialogBuilder.create()
 
-        // If it's edit mode, fill in the initial data
-        diary?.let {
-            dialogBinding.tvDate.text = it.date
-            dialogBinding.edtTitle.setText(it.title)
-            dialogBinding.edtDescription.setText(it.description)
-        }
-
         // Date
         val calendar = Calendar.getInstance()
         val yyyy = calendar.get(Calendar.YEAR)
@@ -231,6 +226,14 @@ class DiaryFragment : Fragment() {
             yyyy, mm, dd
         )
 
+        // If it's edit mode, fill in the initial data
+        diary?.let {
+            dialogBinding.tvDate.text = it.date
+            dialogBinding.edtTitle.setText(it.title)
+            dialogBinding.edtDescription.setText(it.description)
+            getDate = it.date
+        }
+
         // Calendar Button
         dialogBinding.tvDate.setOnClickListener {
             dateDialog.show()
@@ -238,7 +241,6 @@ class DiaryFragment : Fragment() {
         dialogBinding.ivDate.setOnClickListener {
             dateDialog.show()
         }
-
 
         // Positive Button
         dialogBinding.btnPositive.apply {
@@ -257,7 +259,13 @@ class DiaryFragment : Fragment() {
                         title = titleText,
                         description = descriptionText
                     )
-                    onPositive(updatedDiary)
+                    onPositive(updatedDiary).apply {
+                        Toast.makeText(
+                            requireContext(),
+                            if (diary == null) "Diary saved successfully!" else "Diary updated successfully!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     dialog.dismiss()
                 } else {
                     Toast.makeText(
@@ -309,6 +317,19 @@ class DiaryFragment : Fragment() {
         }
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.let {
+            val decorView = it.decorView
+
+            // Set up the initial position of the dialog
+            decorView.translationY = 500F
+
+            // Set up the animation
+            ObjectAnimator.ofFloat(decorView, "translationY", 0f).apply {
+                duration = 500 // Duration
+                interpolator = AccelerateInterpolator() // Interpolator
+                start()
+            }
+        }
         dialog.show()
     }
 

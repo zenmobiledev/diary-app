@@ -1,4 +1,4 @@
-package com.mobbelldev.diaryapp.data.local.entity
+package com.mobbelldev.diaryapp.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -9,5 +9,4 @@ data class DiaryEntity(
     val date: String,
     val title: String,
     val description: String,
-    val lastModified: Long = System.currentTimeMillis(),
 )

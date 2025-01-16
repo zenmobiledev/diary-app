@@ -1,14 +1,15 @@
-package com.mobbelldev.diaryapp.presentation.feature.latest
+package com.mobbelldev.diaryapp.ui.feature.latest
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.mobbelldev.diaryapp.data.local.database.DiaryDatabase
+import com.mobbelldev.diaryapp.R
+import com.mobbelldev.diaryapp.data.DiaryDatabase
+import com.mobbelldev.diaryapp.data.DiaryEntity
 import com.mobbelldev.diaryapp.databinding.FragmentLatestBinding
-import com.mobbelldev.diaryapp.presentation.adapter.ListDiaryAdapter
 
 class LatestFragment : Fragment() {
 
@@ -19,7 +20,6 @@ class LatestFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var db: DiaryDatabase
-    private val listAdapter = ListDiaryAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,14 +36,18 @@ class LatestFragment : Fragment() {
         // Initial database
         db = DiaryDatabase.getInstance(view.context)
 
-        // Initial recycler view
-        with(binding.rvDiaryLatest) {
-            layoutManager = LinearLayoutManager(view.context)
-            adapter = listAdapter
-        }
+        val latestDiary = db.diaryDao().getLatestDiaries()
+        displayDiary(latestDiary)
+    }
 
-        val data = db.diaryDao().getLatestDiaries()
-        listAdapter.setData(data)
+    private fun displayDiary(diaryEntity: DiaryEntity?) {
+        if (diaryEntity != null) {
+            binding.tvDate.text = diaryEntity.date
+            binding.tvTitle.text = diaryEntity.title
+            binding.tvDescription.text = diaryEntity.description
+        } else {
+            binding.tvTitle.text = ContextCompat.getString(requireContext(), R.string.text_no_diary)
+        }
     }
 
     override fun onDestroyView() {

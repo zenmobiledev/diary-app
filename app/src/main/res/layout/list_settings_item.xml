@@ -12,6 +12,7 @@
         android:layout_height="32dp"
         android:layout_gravity="center"
         android:layout_marginEnd="16dp"
+        android:importantForAccessibility="no"
         tools:src="@tools:sample/avatars" />
 
     <TextView

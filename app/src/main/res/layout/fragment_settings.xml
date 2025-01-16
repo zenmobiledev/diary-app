@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.feature.settings.SettingsFragment">
+    tools:context=".ui.feature.settings.SettingsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_settings"

@@ -1,11 +1,10 @@
-package com.mobbelldev.diaryapp.data.local.dao
+package com.mobbelldev.diaryapp.data
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.mobbelldev.diaryapp.data.local.entity.DiaryEntity
 
 @Dao
 interface DiaryDao {
@@ -21,7 +20,7 @@ interface DiaryDao {
     @Delete
     suspend fun deleteDiary(diaryEntity: DiaryEntity)
 
-    // Search Diary
+    // Search by title or date
     @Query("SELECT * FROM diary_table WHERE title LIKE :query OR date LIKE :query")
     suspend fun setSearchDiary(query: String): List<DiaryEntity>
 
@@ -33,7 +32,7 @@ interface DiaryDao {
     @Query("SELECT * FROM diary_table ORDER BY date DESC")
     fun getDiaryByDesc(): List<DiaryEntity>
 
-    // Sorted by lastModified in descending order (latest modified entries first)
-    @Query("SELECT * FROM diary_table ORDER BY lastModified DESC")
-    fun getLatestDiaries(): List<DiaryEntity>
+    // Get the latest diary
+    @Query("SELECT * FROM diary_table ORDER BY id DESC LIMIT 1")
+    fun getLatestDiaries(): DiaryEntity
 }

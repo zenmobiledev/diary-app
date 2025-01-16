@@ -1,9 +1,9 @@
-package com.mobbelldev.diaryapp.presentation.adapter
+package com.mobbelldev.diaryapp.ui.feature.diary.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mobbelldev.diaryapp.data.local.entity.DiaryEntity
+import com.mobbelldev.diaryapp.data.DiaryEntity
 import com.mobbelldev.diaryapp.databinding.ItemListBinding
 
 class ListDiaryAdapter : RecyclerView.Adapter<ListDiaryAdapter.ListDiaryViewHolder>() {
