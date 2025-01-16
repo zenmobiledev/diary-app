@@ -4,5 +4,4 @@ data class SettingItem(
     val iconResId: Int,
     val title: String,
     val hasSwitch: Boolean,
-    var isSwitchOn: Boolean = false,
 )

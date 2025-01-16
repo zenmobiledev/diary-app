@@ -29,18 +29,15 @@ class SettingsAdapter(
             binding.itemSwitch.setOnCheckedChangeListener { _, isChecked ->
                 sharedPreferences.edit().putBoolean(item.title, isChecked).apply()
                 // with a switch
-                item.isSwitchOn = isChecked
-                if (item.isSwitchOn) {
+                if (isChecked) {
                     onItemClickListener.onSettingItemClick(item)
-                    println("Adapter: TRUE")
                 } else {
                     Toast.makeText(
                         itemView.context,
-                        "Please turn on the switch to enable this feature",
+                        "Please turn on the switch to enable getting notifications",
                         Toast.LENGTH_SHORT
                     ).show()
                     NotificationReminderReceiver().cancelAlarm(itemView.context)
-                    println("Adapter: FALSE")
                 }
             }
 

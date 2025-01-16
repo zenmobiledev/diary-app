@@ -88,7 +88,7 @@ class SettingsFragment : Fragment(), OnSettingItemClickListener {
                 Toast.makeText(
                     view?.context,
                     "Alarm set at $hourOfDay:$minute",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
             },
             h,
