@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 // Permission denied
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                showPermissionRationaleDialog()
 
                 // Redirect to Settings if permission was denied
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -84,5 +86,25 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    private fun showPermissionRationaleDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Notification Permission Required")
+            .setMessage("This app requires notification permissions. Please allow the permission.")
+            .setPositiveButton("Allow") { _, _ ->
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+            .setNegativeButton(
+                "Cancel"
+            ) { _, _ ->
+                this@MainActivity.finish()
+                Toast.makeText(
+                    this,
+                    "Permission denied, Please allow the permission to use the app.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            .show()
     }
 }
