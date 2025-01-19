@@ -30,7 +30,9 @@ import com.mobbelldev.diaryapp.data.DiaryEntity
 import com.mobbelldev.diaryapp.databinding.CustomAlertDialogBinding
 import com.mobbelldev.diaryapp.databinding.FragmentDiaryBinding
 import com.mobbelldev.diaryapp.ui.feature.diary.adapter.ListDiaryAdapter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 class DiaryFragment : Fragment() {
@@ -89,6 +91,7 @@ class DiaryFragment : Fragment() {
                                         val data = db.diaryDao().getDiaryByDesc()
                                         listAdapter.setData(data)
                                     }
+
                                     Toast.makeText(
                                         view.context,
                                         "Latest",
@@ -103,6 +106,7 @@ class DiaryFragment : Fragment() {
                                         val data = db.diaryDao().getDiaryByAsc()
                                         listAdapter.setData(data)
                                     }
+
                                     Toast.makeText(
                                         view.context,
                                         "Oldest",
@@ -208,6 +212,8 @@ class DiaryFragment : Fragment() {
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         alertDialogBuilder.setView(dialogBinding.root)
         val dialog = alertDialogBuilder.create()
+        dialog.setCancelable(false)
+        dialogBinding.tvTitle.text = if (diary != null) "Edit Diary" else "Add Diary"
 
         // Date
         val calendar = Calendar.getInstance()
@@ -221,24 +227,22 @@ class DiaryFragment : Fragment() {
             requireContext(),
             { _, year, month, day ->
                 getDate = "$day/${month + 1}/$year"
-                dialogBinding.tvDate.text = getDate
+                dialogBinding.edtDate.setText(getDate)
             },
             yyyy, mm, dd
         )
+        dateDialog.datePicker.maxDate = calendar.timeInMillis
 
         // If it's edit mode, fill in the initial data
         diary?.let {
-            dialogBinding.tvDate.text = it.date
+            dialogBinding.edtDate.setText(it.date)
             dialogBinding.edtTitle.setText(it.title)
             dialogBinding.edtDescription.setText(it.description)
             getDate = it.date
         }
 
         // Calendar Button
-        dialogBinding.tvDate.setOnClickListener {
-            dateDialog.show()
-        }
-        dialogBinding.ivDate.setOnClickListener {
+        dialogBinding.edtDate.setOnClickListener {
             dateDialog.show()
         }
 
@@ -291,7 +295,11 @@ class DiaryFragment : Fragment() {
             isVisible = diary != null
             setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    db.diaryDao().deleteDiary(diary!!)
+                    withContext(Dispatchers.IO) {
+                        diary?.let {
+                            db.diaryDao().deleteDiary(it)
+                        }
+                    }
                     Toast.makeText(
                         requireContext(),
                         "Diary deleted successfully!",
@@ -335,22 +343,24 @@ class DiaryFragment : Fragment() {
 
     // Get all diaries from the database
     private fun getData() {
-        val dataDiary = db.diaryDao().getAllDiaries()
+        viewLifecycleOwner.lifecycleScope.launch {
+            val dataDiary = db.diaryDao().getAllDiaries()
 
-        // Check if there are any diaries
-        if (dataDiary.isNotEmpty()) {
-            // If there are diaries, display them in the RecyclerView
-            listAdapter.setData(
-                list = dataDiary
-            )
-            binding.ivDiary.isVisible = false
-            binding.tvDiary.isVisible = false
-            binding.rvDiary.isVisible = true
-        } else {
-            // If there are no diaries, display the empty state message
-            binding.ivDiary.isVisible = true
-            binding.tvDiary.isVisible = true
-            binding.rvDiary.isVisible = false
+            // Check if there are any diaries
+            if (dataDiary.isNotEmpty()) {
+                // If there are diaries, display them in the RecyclerView
+                listAdapter.setData(
+                    list = dataDiary
+                )
+                binding.ivDiary.isVisible = false
+                binding.tvDiary.isVisible = false
+                binding.rvDiary.isVisible = true
+            } else {
+                // If there are no diaries, display the empty state message
+                binding.ivDiary.isVisible = true
+                binding.tvDiary.isVisible = true
+                binding.rvDiary.isVisible = false
+            }
         }
     }
 }

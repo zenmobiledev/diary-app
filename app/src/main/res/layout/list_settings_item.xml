@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:padding="16dp">
 
     <ImageView
@@ -11,19 +11,26 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_gravity="center"
-        android:layout_marginEnd="16dp"
         android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/item_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_weight="1"
         android:paddingStart="8dp"
         android:paddingEnd="16dp"
         android:textColor="@color/md_theme_onSurface_highContrast"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/item_icon"
+        app:layout_constraintEnd_toStartOf="@+id/item_switch"
+        app:layout_constraintStart_toEndOf="@+id/item_icon"
+        app:layout_constraintTop_toTopOf="@+id/item_icon"
         tools:text="Setting Option" />
 
     <com.google.android.material.materialswitch.MaterialSwitch
@@ -31,5 +38,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/item_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/item_icon"
         tools:visibility="visible" />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

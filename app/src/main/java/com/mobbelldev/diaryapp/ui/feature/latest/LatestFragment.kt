@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.mobbelldev.diaryapp.R
 import com.mobbelldev.diaryapp.data.DiaryDatabase
 import com.mobbelldev.diaryapp.data.DiaryEntity
 import com.mobbelldev.diaryapp.databinding.FragmentLatestBinding
+import kotlinx.coroutines.launch
 
 class LatestFragment : Fragment() {
 
@@ -36,15 +38,19 @@ class LatestFragment : Fragment() {
         // Initial database
         db = DiaryDatabase.getInstance(view.context)
 
-        val latestDiary = db.diaryDao().getLatestDiaries()
-        displayDiary(latestDiary)
+        viewLifecycleOwner.lifecycleScope.launch {
+            val latestDiary = db.diaryDao().getLatestDiaries()
+            displayDiary(latestDiary)
+        }
     }
 
     private fun displayDiary(diaryEntity: DiaryEntity?) {
         if (diaryEntity != null) {
-            binding.tvDate.text = diaryEntity.date
-            binding.tvTitle.text = diaryEntity.title
-            binding.tvDescription.text = diaryEntity.description
+            with(binding) {
+                tvDate.text = diaryEntity.date
+                tvTitle.text = diaryEntity.title
+                tvDescription.text = diaryEntity.description
+            }
         } else {
             binding.tvTitle.text = ContextCompat.getString(requireContext(), R.string.text_no_diary)
         }

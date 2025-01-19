@@ -2,6 +2,6 @@ package com.mobbelldev.diaryapp.data
 
 data class SettingItem(
     val iconResId: Int,
-    val title: String,
+    var title: String,
     val hasSwitch: Boolean,
 )

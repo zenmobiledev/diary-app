@@ -12,7 +12,7 @@ interface DiaryDao {
     suspend fun insertDiary(diaryEntity: DiaryEntity)
 
     @Query("SELECT * FROM diary_table ORDER BY id DESC")
-    fun getAllDiaries(): List<DiaryEntity>
+    suspend fun getAllDiaries(): List<DiaryEntity>
 
     @Update
     suspend fun update(diaryEntity: DiaryEntity)
@@ -26,13 +26,13 @@ interface DiaryDao {
 
     // Sorted by date in ascending order
     @Query("SELECT * FROM diary_table ORDER BY date ASC")
-    fun getDiaryByAsc(): List<DiaryEntity>
+    suspend fun getDiaryByAsc(): List<DiaryEntity>
 
     // Sorted by date in descending order
     @Query("SELECT * FROM diary_table ORDER BY date DESC")
-    fun getDiaryByDesc(): List<DiaryEntity>
+    suspend fun getDiaryByDesc(): List<DiaryEntity>
 
     // Get the latest diary
-    @Query("SELECT * FROM diary_table ORDER BY id DESC LIMIT 1")
-    fun getLatestDiaries(): DiaryEntity
+    @Query("SELECT * FROM diary_table ORDER BY date DESC LIMIT 1")
+    suspend fun getLatestDiaries(): DiaryEntity
 }

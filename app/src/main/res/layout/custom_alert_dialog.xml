@@ -5,7 +5,6 @@
     style="@style/Widget.Material3.CardView.Elevated"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
     android:layout_margin="16dp"
     app:cardCornerRadius="28dp">
 
@@ -13,34 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv_date"
+        <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/rounded_date_24"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_date"
-            style="@style/MaterialAlertDialog.Material3.Title.Text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Add Date"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/md_theme_onSurface"
+            android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/imb_cancel"
-            app:layout_constraintStart_toEndOf="@+id/iv_date"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="09/01/2025" />
+            tools:text="TITLE" />
+
 
         <ImageButton
             android:id="@+id/imb_cancel"
@@ -50,9 +34,24 @@
             android:layout_marginEnd="16dp"
             android:src="@drawable/outline_cancel_24"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_date"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/tv_title" />
+
+        <EditText
+            android:id="@+id/edt_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            android:drawableStart="@drawable/rounded_date_24"
+            android:drawablePadding="8dp"
+            android:focusable="false"
+            android:hint="Set your date"
+            android:textColor="@color/md_theme_onSurface"
+            android:textColorHint="@color/md_theme_onSurfaceVariant"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            tools:layout_editor_absoluteX="16dp" />
 
         <EditText
             android:id="@+id/edt_title"
@@ -60,12 +59,13 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
-            android:hint="TITLE"
+            android:drawableStart="@drawable/outline_title_24"
+            android:drawablePadding="8dp"
+            android:hint="Set your title"
             android:inputType="text"
             android:textColor="@color/md_theme_onSurface"
             android:textColorHint="@color/md_theme_onSurfaceVariant"
-            app:layout_constraintTop_toBottomOf="@+id/tv_date"
-            tools:layout_editor_absoluteX="16dp" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_date" />
 
         <EditText
             android:id="@+id/edt_description"
@@ -73,21 +73,15 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
-            android:hint="Write more here..."
-            android:inputType="text"
+            android:drawableStart="@drawable/baseline_description_24"
+            android:drawablePadding="8dp"
+            android:hint="Set your description"
+            android:inputType="textMultiLine"
+            android:lines="4"
+            android:maxLines="4"
             android:textColor="@color/md_theme_onSurface"
             android:textColorHint="@color/md_theme_onSurfaceVariant"
-            app:layout_constraintTop_toBottomOf="@id/edt_title"
-            tools:layout_editor_absoluteX="16dp" />
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider"
-            style="@style/Widget.Material3.MaterialDivider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/edt_description"
-            tools:layout_editor_absoluteX="16dp" />
+            app:layout_constraintTop_toBottomOf="@id/edt_title" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_positive"
@@ -95,10 +89,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/edt_description"
-            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintTop_toBottomOf="@id/edt_description"
             tools:icon="@drawable/ic_launcher_background"
             tools:text="POSITIVE" />
 
@@ -126,7 +120,7 @@
             app:backgroundTint="@color/md_theme_error"
             app:icon="@drawable/outline_delete_24"
             app:layout_constraintEnd_toStartOf="@+id/btn_positive"
-            app:layout_constraintTop_toTopOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@id/edt_description"
             tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

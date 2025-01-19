@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mobbelldev.diaryapp.data.DiaryEntity
 import com.mobbelldev.diaryapp.databinding.ItemListBinding
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class ListDiaryAdapter : RecyclerView.Adapter<ListDiaryAdapter.ListDiaryViewHolder>() {
 
@@ -33,9 +35,8 @@ class ListDiaryAdapter : RecyclerView.Adapter<ListDiaryAdapter.ListDiaryViewHold
 
     override fun onBindViewHolder(holder: ListDiaryViewHolder, position: Int) {
         val data = listDiary[position]
-        val context = holder.itemView.context
         with(holder.binding) {
-            tvDate.text = data.date
+            tvDate.text = formatDate(data.date)
             tvTitle.text = data.title
             tvDescription.text = data.description
         }
@@ -56,5 +57,16 @@ class ListDiaryAdapter : RecyclerView.Adapter<ListDiaryAdapter.ListDiaryViewHold
     // Set the click listener for the adapter
     fun setOnClickListener(listener: OnClickListener?) {
         this.onClickListener = listener
+    }
+
+    private fun formatDate(inputDate: String): String {
+        try {
+            val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+            val outputFormat = SimpleDateFormat("EEE, dd MM yyyy", Locale.ENGLISH)
+            val date = inputFormat.parse(inputDate)
+            return date?.let { outputFormat.format(it) } ?: "Invalid Date"
+        } catch (e: Exception) {
+            return "Invalid Date"
+        }
     }
 }

@@ -74,9 +74,10 @@ class NotificationReminderReceiver : BroadcastReceiver() {
             calendar.add(Calendar.DAY_OF_YEAR, 1)
         }
 
-        val intent = Intent(context, NotificationReminderReceiver::class.java)
-        intent.putExtra(HOUR, hour)
-        intent.putExtra(MINUTE, minute)
+        val intent = Intent(context, NotificationReminderReceiver::class.java).apply {
+            putExtra(HOUR, hour)
+            putExtra(MINUTE, minute)
+        }
 
         val pendingIntent = PendingIntent.getBroadcast(
             context,
