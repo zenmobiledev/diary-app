@@ -11,6 +11,7 @@ import com.mobbelldev.diaryapp.R
 import com.mobbelldev.diaryapp.data.DiaryDatabase
 import com.mobbelldev.diaryapp.data.DiaryEntity
 import com.mobbelldev.diaryapp.databinding.FragmentLatestBinding
+import com.mobbelldev.diaryapp.utils.DateUtils
 import kotlinx.coroutines.launch
 
 class LatestFragment : Fragment() {
@@ -47,7 +48,7 @@ class LatestFragment : Fragment() {
     private fun displayDiary(diaryEntity: DiaryEntity?) {
         if (diaryEntity != null) {
             with(binding) {
-                tvDate.text = diaryEntity.date
+                tvDate.text = DateUtils.formatDate(diaryEntity.date)
                 tvTitle.text = diaryEntity.title
                 tvDescription.text = diaryEntity.description
             }

@@ -21,10 +21,11 @@
             style="@style/MaterialAlertDialog.Material3.Title.Text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLines="1"
             android:textColor="@color/md_theme_onSurface_highContrast"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Title" />
 
@@ -32,11 +33,8 @@
             android:id="@+id/tv_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/md_theme_onSurface_highContrast"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/md_theme_outlineVariant_mediumContrast"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="09/01/2025" />
 
@@ -46,11 +44,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            android:lines="4"
+            android:maxLines="4"
             android:textColor="@color/md_theme_onSurface_highContrast"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_date"
-            tools:layout_editor_absoluteX="16dp"
             tools:text="Description" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

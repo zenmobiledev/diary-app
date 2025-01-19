@@ -23,15 +23,14 @@ class SettingsAdapter(
         private val context = itemView.context
         fun bind(item: SettingItem) {
             with(binding) {
-                val alarmTime = sharedPreferences.getString("ALARM_TIME", null)
+                val alarmTime = sharedPreferences.getString("ALARM_TIME", "")
                 val formatedDate =
-                    "${context.getString(R.string.text_notification)}: $alarmTime"
+                    "${context.getString(R.string.text_notification)} $alarmTime"
                 // Set icon dan title
                 itemIcon.setImageResource(item.iconResId)
                 itemText.text = item.title
 
                 if (item.title == context.getString(R.string.text_notification)) {
-                    // If there's a saved alarm time, update the text
                     alarmTime?.let {
                         itemText.text = formatedDate
                     }
@@ -47,8 +46,10 @@ class SettingsAdapter(
                         // with a switch
                         if (isChecked) {
                             setAlarmTime()
+                            itemText.text = formatedDate
                         } else {
-                            binding.itemText.text = item.title
+                            itemText.text = item.title
+                            sharedPreferences.edit().remove("ALARM_TIME").apply()
                             cancelAlarm()
                         }
                     }
@@ -100,6 +101,10 @@ class SettingsAdapter(
                 true
             )
             getTimePickerDialog.show()
+            getTimePickerDialog.setCancelable(false)
+            getTimePickerDialog.setOnCancelListener {
+                binding.itemSwitch.isChecked = false
+            }
         }
 
         private fun cancelAlarm() {
