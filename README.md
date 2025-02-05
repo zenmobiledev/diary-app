@@ -1,5 +1,5 @@
 
-## Tech Stack
+## Technology Used / Tech Stack
 
 [![JDK](https://img.shields.io/badge/openjdk-21.0.3-437291?style=for-the-badge&logo=openJdk&logoColor=white)](https://openjdk.org/)
 [![Android Studio](https://img.shields.io/badge/Android_Studio-2024.2.1_Patch_3-3DDC84?style=for-the-badge&logo=android-studio&logoColor=white)](https://developer.android.com/studio)
@@ -17,9 +17,9 @@ Diary App adalah aplikasi yang memungkinkan pengguna untuk mencatat dan mengelol
 
 
 ## Table of Contents
-
+- [Technology Used / Tech Stack](#technology-used--tech-stack)
 - [Features](#features)
-- [Installation](#installation)
+- [Installation (How to run the project)](#installation-how-to-run-the-project)
 - [Tree / Folder Structure](#tree--folder-structure)
 - [Todos](#todos)
 - [Flowchart](#flowchart)
