@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mobbelldev.diaryapp.data.DiaryEntity
 import com.mobbelldev.diaryapp.databinding.ItemListBinding
-import com.mobbelldev.diaryapp.utils.DateUtils
+import com.mobbelldev.diaryapp.utils.convertDate
 
 class ListDiaryAdapter : RecyclerView.Adapter<ListDiaryAdapter.ListDiaryViewHolder>() {
 
@@ -35,7 +35,7 @@ class ListDiaryAdapter : RecyclerView.Adapter<ListDiaryAdapter.ListDiaryViewHold
     override fun onBindViewHolder(holder: ListDiaryViewHolder, position: Int) {
         val data = listDiary[position]
         with(holder.binding) {
-            tvDate.text = DateUtils.formatDate(data.date)
+            tvDate.text = data.date.convertDate()
             tvTitle.text = data.title
             tvDescription.text = data.description
         }
