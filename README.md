@@ -13,7 +13,7 @@
 [![Glide](https://img.shields.io/badge/Glide-4.16.0-18BED4?style=for-the-badge&logo=glide&logoColor=white)](https://github.com/bumptech/glide#proguard)
 # Diary App
 
-Diary App adalah aplikasi yang memungkinkan pengguna untuk mencatat dan mengelola harian. Aplikasi ini dirancang untuk memudahkan pencatatan, pengeditan, dan penghapusan dengan antarmuka yang ramah pengguna.
+**Diary App** adalah aplikasi yang memungkinkan pengguna untuk mencatat dan mengelola harian. Aplikasi ini dirancang untuk memudahkan pencatatan, pengeditan, dan penghapusan dengan antarmuka yang ramah pengguna.
 
 
 ## Table of Contents
@@ -60,6 +60,7 @@ After the build process completes successfully:
 >- **Launch the App**: Click on the green 'Run' button (usually depicted as a play icon) in the IDE toolbar, or navigate to ```Run``` > ```Run 'app'```. This action will install and start the application on the selected device.
 ## Tree / Folder Structure
 ```
+.
 └── app
     └── src
         └── main
