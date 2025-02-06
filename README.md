@@ -22,6 +22,7 @@
 - [Installation (How to run the project)](#installation-how-to-run-the-project)
 - [Tree / Folder Structure](#tree--folder-structure)
 - [Todos](#todos)
+- [Done](#done)
 - [Flowchart](#flowchart)
 - [Preview](#preview)
 - [Demo](#demo)
