@@ -81,12 +81,23 @@ After the build process completes successfully:
                             └── utils
 ```
 ## Todos
+- [ ] Integrasi Retrofit [Optional]
 
-- [x]  Input Catatan Harian
-- [x]  Penyimpanan Catatan
-- [x]  Riwayat Catatan
-- [x]  Sortir dan Pencarian
-- [x]  Notifikasi Pengingat
+## Done
+**Point Penilaian**:
+>- [x] Recycler View
+>- [x] Alert Dialog
+>- [x] Bottom Navigation
+>- [x] Background Thread
+>- [x] Data Store and Animation 
+
+**Fitur Aplikasi**:
+>- [x]  Input Catatan Harian
+>- [x]  Penyimpanan Catatan
+>- [x]  Riwayat Catatan
+>- [x]  Sortir dan Pencarian
+>- [x]  Notifikasi Pengingat
+
 ## Flowchart
 |1                                 |2                                 |3                                |4                                |
 |----------------------------------|----------------------------------|---------------------------------|---------------------------------|
