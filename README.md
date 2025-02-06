@@ -60,142 +60,24 @@ After the build process completes successfully:
 >- **Launch the App**: Click on the green 'Run' button (usually depicted as a play icon) in the IDE toolbar, or navigate to ```Run``` > ```Run 'app'```. This action will install and start the application on the selected device.
 ## Tree / Folder Structure
 ```
-├── app
-│   ├── src
-│   │   ├── androidTest
-│   │   │   └── java
-│   │   │       └── com
-│   │   │           └── mobbelldev
-│   │   │               └── diaryapp
-│   │   │                   └── ExampleInstrumentedTest.kt
-│   │   ├── main
-│   │   │   ├── java
-│   │   │   │   └── com
-│   │   │   │       └── mobbelldev
-│   │   │   │           ├── apk
-│   │   │   │           │   └── app-debug.apk
-│   │   │   │           ├── assets
-│   │   │   │           │   ├── flow
-│   │   │   │           │   │   ├── Diary App-Page-1.png
-│   │   │   │           │   │   ├── Diary App-Page-2.png
-│   │   │   │           │   │   ├── Diary App-Page-3.png
-│   │   │   │           │   │   └── Diary App-Page-4.png
-│   │   │   │           │   └── preview
-│   │   │   │           │       ├── add_diary.png
-│   │   │   │           │       ├── alarm.png
-│   │   │   │           │       ├── edit_diary.png
-│   │   │   │           │       ├── latest_page.png
-│   │   │   │           │       ├── main_page.png
-│   │   │   │           │       ├── search.png
-│   │   │   │           │       └── sort.png
-│   │   │   │           └── diaryapp
-│   │   │   │               ├── data
-│   │   │   │               │   ├── DiaryDao.kt
-│   │   │   │               │   ├── DiaryDatabase.kt
-│   │   │   │               │   ├── DiaryEntity.kt
-│   │   │   │               │   └── SettingItem.kt
-│   │   │   │               ├── ui
-│   │   │   │               │   ├── feature
-│   │   │   │               │   │   ├── diary
-│   │   │   │               │   │   │   ├── adapter
-│   │   │   │               │   │   │   │   └── ListDiaryAdapter.kt
-│   │   │   │               │   │   │   └── DiaryFragment.kt
-│   │   │   │               │   │   ├── latest
-│   │   │   │               │   │   │   └── LatestFragment.kt
-│   │   │   │               │   │   └── settings
-│   │   │   │               │   │       ├── adapter
-│   │   │   │               │   │       │   └── SettingsAdapter.kt
-│   │   │   │               │   │       ├── notification
-│   │   │   │               │   │       │   └── NotificationReminderReceiver.kt
-│   │   │   │               │   │       └── SettingsFragment.kt
-│   │   │   │               │   └── main
-│   │   │   │               │       └── MainActivity.kt
-│   │   │   │               └── utils
-│   │   │   │                   └── FormatDate.kt
-│   │   │   ├── res
-│   │   │   │   ├── drawable
-│   │   │   │   │   ├── baseline_description_24.xml
-│   │   │   │   │   ├── diary_amico_illustration.png
-│   │   │   │   │   ├── ic_launcher_background.xml
-│   │   │   │   │   ├── ic_launcher_foreground.xml
-│   │   │   │   │   ├── outline_cancel_24.xml
-│   │   │   │   │   ├── outline_delete_24.xml
-│   │   │   │   │   ├── outline_exit_to_app_24.xml
-│   │   │   │   │   ├── outline_latest_24.xml
-│   │   │   │   │   ├── outline_notifications_active_24.xml
-│   │   │   │   │   ├── outline_save_24.xml
-│   │   │   │   │   ├── outline_settings_24.xml
-│   │   │   │   │   ├── outline_sort_24.xml
-│   │   │   │   │   ├── outline_title_24.xml
-│   │   │   │   │   ├── rounded_add_24.xml
-│   │   │   │   │   ├── rounded_date_24.xml
-│   │   │   │   │   ├── rounded_diary_24.xml
-│   │   │   │   │   ├── rounded_filter_24.xml
-│   │   │   │   │   └── rounded_search_24.xml
-│   │   │   │   ├── layout
-│   │   │   │   │   ├── activity_main.xml
-│   │   │   │   │   ├── custom_alert_dialog.xml
-│   │   │   │   │   ├── fragment_diary.xml
-│   │   │   │   │   ├── fragment_latest.xml
-│   │   │   │   │   ├── fragment_settings.xml
-│   │   │   │   │   ├── item_list.xml
-│   │   │   │   │   └── list_settings_item.xml
-│   │   │   │   ├── menu
-│   │   │   │   │   ├── bottom_nav_menu.xml
-│   │   │   │   │   ├── sort_menu.xml
-│   │   │   │   │   └── top_bar_menu.xml
-│   │   │   │   ├── mipmap-anydpi-v26
-│   │   │   │   │   ├── ic_launcher.xml
-│   │   │   │   │   └── ic_launcher_round.xml
-│   │   │   │   ├── mipmap-hdpi
-│   │   │   │   │   ├── ic_launcher.webp
-│   │   │   │   │   └── ic_launcher_round.webp
-│   │   │   │   ├── mipmap-mdpi
-│   │   │   │   │   ├── ic_launcher.webp
-│   │   │   │   │   └── ic_launcher_round.webp
-│   │   │   │   ├── mipmap-xhdpi
-│   │   │   │   │   ├── ic_launcher.webp
-│   │   │   │   │   └── ic_launcher_round.webp
-│   │   │   │   ├── mipmap-xxhdpi
-│   │   │   │   │   ├── ic_launcher.webp
-│   │   │   │   │   └── ic_launcher_round.webp
-│   │   │   │   ├── mipmap-xxxhdpi
-│   │   │   │   │   ├── ic_launcher.webp
-│   │   │   │   │   └── ic_launcher_round.webp
-│   │   │   │   ├── navigation
-│   │   │   │   │   └── mobile_navigation.xml
-│   │   │   │   ├── values
-│   │   │   │   │   ├── colors.xml
-│   │   │   │   │   ├── dimens.xml
-│   │   │   │   │   ├── strings.xml
-│   │   │   │   │   └── themes.xml
-│   │   │   │   ├── values-night
-│   │   │   │   │   ├── colors.xml
-│   │   │   │   │   ├── strings.xml
-│   │   │   │   │   └── themes.xml
-│   │   │   │   └── xml
-│   │   │   │       ├── backup_rules.xml
-│   │   │   │       └── data_extraction_rules.xml
-│   │   │   └── AndroidManifest.xml
-│   │   └── test
-│   │       └── java
-│   │           └── com
-│   │               └── mobbelldev
-│   │                   └── diaryapp
-│   │                       └── ExampleUnitTest.kt
-│   ├── build.gradle.kts
-│   └── proguard-rules.pro
-├── gradle
-│   ├── wrapper
-│   │   ├── gradle-wrapper.jar
-│   │   └── gradle-wrapper.properties
-│   └── libs.versions.toml
-├── build.gradle.kts
-├── gradle.properties
-├── gradlew
-├── gradlew.bat
-├── local.properties
-└── settings.gradle.kts
+└── app
+    └── src
+        └── main
+            └── java
+                └── com
+                    └── mobbelldev
+                        └── diaryapp
+                            ├── data
+                            ├── ui
+                            │   ├── feature
+                            │   │   ├── diary
+                            │   │   │   └── adapter
+                            │   │   ├── latest
+                            │   │   └── settings
+                            │   │       ├── adapter
+                            │   │       └── notification
+                            │   └── main
+                            └── utils
 ```
 ## Todos
 
